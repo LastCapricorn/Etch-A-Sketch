@@ -2,9 +2,17 @@
 
 :root {
   --grid: 16;
-  --hue: 0;
-  --sat: 100%;
-  --lit: 100%;
+  --theme-sun: '&#x1f506;';
+  --theme-moon: '&#x1f319;';
+  --background1: #efefef;
+  --background2: #cfcfcf;
+  --background3: #afafaf;
+  --background4: #8f8f8f;
+  --background5: #7fffd4;
+  --text1: #fff;
+  --text2: #8fff8f;
+  --shadow1: #4f4f4f;
+  --shadow2: #2f2f2f;
 }
 
 html {
@@ -23,7 +31,8 @@ html {
 body {
   font-family: 'Megrim', cursive;
   height: 100vh;
-  background-color: #efefef;
+  background-color: var(--background1);
+  user-select: none;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -32,36 +41,65 @@ body {
 header,
 main,
 footer {
-  width: 960px;
-  margin: 0 auto;
+  width: 1100px;
+  min-width: 320px;
+  margin: 0 auto 0.65rem;
+  border-radius: 2px;
+  box-shadow: 1px 1px 3px 0px var(--shadow1),
+  8px 6px 4px 0px var(--background4);
   display: flex;
 }
 
 header {
-  background-color: #dfdfdf;
+  background-color: var(--background2);
+  justify-content: center;
+  align-items: center;
 }
 
 main {
-  background-color: #cfcfcf;
+  background-color: var(--background3);
+  justify-content: flex-start;
+  padding: 0.25rem 0;
 }
 
 footer {
-  background-color: #bfbfbf;
-  color: #fff;
-  font-size: 1.2rem;
-  text-align: center;
-  text-shadow: 2px 2px 2px #3f3f3f;
+  background-color: var(--background4);
+  color: var(--text1);
+  font-size: 1.1rem;
+  text-shadow: 2px 2px 2px var(--shadow2);
+  justify-content: center;
+  padding: 0.1rem 0;
 }
 
 h1 {
-  color: white;
-  text-shadow: 3px 3px 3px #6f6f6f;
+  color: var(--text1);
+  text-shadow: 3px 2px 3px var(--shadow1);
   text-align: center;
   font-size: 3.5rem;
+  flex: 1;
+}
+
+button {
+  cursor: pointer;
+}
+
+header button {
+  background-color: var(--background2);
+  border: 2px outset var(--background1);
+  outline: solid 1px var(--background4);
+  outline-offset: 0px;
+  border-radius: 50%;
+  padding: 0.25rem;
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
+}
+
+nav {
+  flex: 0 0 18%;
 }
 
 ul {
-  margin-top: 1.0rem;
+  margin-top: 0.75rem;
   margin-left: 0.5rem;
   display: flex;
   flex-flow: column nowrap;
@@ -69,51 +107,65 @@ ul {
   align-items: flex-start;
 }
 
-li:nth-of-type(4) {
-  margin-top: 1.2rem;
-}
-
 li {
   margin-bottom: 0.4rem;
 }
 
+li:nth-of-type(4) {
+  margin-top: 1.2rem;
+}  
+
 li.ratio {
   display: flex;
   align-items: center;
-  border: 1px groove #6f6f6f;
+  border: 1px solid var(--shadow1);
   padding: 0 3px;
 }
 
 #ratio {
-  background-color: #3f3f3f;
-  width: 80px;
+  background-color: var(--shadow2);
+  width: 72px;
   height: 24px;
   margin: 0.2rem 0;
-  padding: 2px 8px;
+  padding: 4px 8px 0px;
   text-align: right;
-  color: #8fff8f;
+  color: var(--text2);
 }
 
 button.ratio {
   font-family: inherit;
   font-size: 1.0rem;
   font-weight: bold;
-  padding: 0 4px 1px;
+  padding: 0 4px;
   height: 24px;
   margin-left: 0.1rem;
 }
 
 button.common {
-  width: 133px;
+  width: 120px;
   padding: 2px 0;
   font-family: inherit;
   font-size: 1.05rem;
 }      
 
 button.common.toggle-on {
-  background-color: #7fffd4;
+  background-color: var(--background5);
   border-radius: 3px;
 }      
+
+li:last-of-type {
+  display: flex;
+  flex-direction: column;
+}
+
+#color-picker {
+  width: 120px;
+  height: 32px;
+  background-color: var(--background2);
+  border: 1px solid var(--shadow1);
+  border-radius: 2px;
+  cursor: pointer;
+}
 
 #board {
   width: 800px;
@@ -121,39 +173,156 @@ button.common.toggle-on {
   display: grid;
   justify-content:center;
   align-content: center;
-  background-color: #afafaf;
+  background-color: var(--background3);
+  grid-template: repeat(var(--grid), 1fr) / repeat(var(--grid), 1fr);
+}    
+
+.current {
+  transition-property: background-color;
+  transition-duration: 500ms;
+  transition-timing-function: ease-out;
 }  
 
-.pixel.recent {
-  transition-property: background-color;
-  transition-duration: 250ms;
-  transition-timing-function: ease;
+footer a:link {
+  text-decoration-line: none;
+  color: var(--background5);
 }
 
-#colorPicker {
-  width: 133px;
-  height: 32px;
-  border: 1px groove #6f6f6f;
-  border-radius: 3px;
+footer a:visited {
+  color: var(--background5);
 }
-@media only screen and (max-width: 960px) {
+
+footer a:hover {
+  text-decoration-line: underline;
+}
+
+@media screen and (max-width: 1111px) {
   header,
   main,
   footer {
-    width: 720px;
+    width: 1000px;
   }
   
   #board {
-    width: 560px;
-    height: 560px;
+    width: 740px;
+    height: 740px;
   }
 }
 
-@media only screen and (max-width: 720px) {
+@media screen and (max-width: 1011px) {
   header,
   main,
   footer {
-    width: 480px;
+    width: 900px;
+  }
+
+  #board {
+    width: 640px;
+    height: 640px;
+  }
+}
+
+@media screen and (max-width: 911px) {
+  header,
+  main,
+  footer {
+    width: 800px;
+  }
+
+  #board {
+    width: 600px;
+    height: 600px;
+  }
+}
+
+@media screen and (max-width: 811px) {
+  html {
+    font-size: 14px;
+  }
+
+  header,
+  main,
+  footer {
+    width: 700px;
+  }
+
+  nav {
+    flex: 0 0 20%;
+  }
+
+  #board {
+    width: 500px;
+    height: 500px;
+  }
+
+  #ratio {
+    background-color: var(--shadow2);
+    width: 64px;
+  }
+  
+  button.common,
+  #color-picker {
+    width: 110px;
+  }      
+
+}
+
+@media screen and (max-width: 711px) {
+  html {
+    font-size: 12px;
+  }
+
+  header,
+  main,
+  footer {
+    width: 560px;
+  }
+
+  nav {
+    flex: 0 0 22%;
+  }
+
+  #board {
+    width: 400px;
+    height: 400px;
+  }
+
+  #ratio {
+    background-color: var(--shadow2);
+    width: 58px;
+  }
+
+  button.common,
+  #color-picker {
+    width: 101px;
+  }
+
+}
+
+@media screen and (max-width: 611px) {
+  header,
+  main,
+  footer {
+    width: 400px;
+  }
+
+  main {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  nav {
+    flex: 0 0 0;
+  }
+
+  ul {
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  li:nth-of-type(4) {
+    margin-top: 0;
   }
 
   h1 {
@@ -164,21 +333,38 @@ button.common.toggle-on {
     width: 320px;
     height: 320px;
   }
+
+  #ratio {
+    background-color: var(--shadow2);
+    width: 66px;
+  }
+
+  li:last-of-type {
+    flex-direction: column-reverse;
+    height: 37px;
+  }
+
+  button.common,
+  #color-picker {
+    width: 106px;
+  }
+
 }
 
-@media only screen and (max-width: 480px) {
+@media screen and (max-width: 411px) {
   header,
   main,
   footer {
-    width: 360px;
+    width: 300px;
   }
 
   h1 {
-    font-size: 2.0rem;
+    font-size: 2.5rem;
   }
 
   #board {
     width: 240px;
     height: 240px;
   }
+
 }

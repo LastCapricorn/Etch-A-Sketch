@@ -1,3 +1,5 @@
+'use strict';
+
 const board = document.getElementById('board');
 const ratio = document.getElementById('ratio');
 const buttons = document.getElementsByTagName('button');
@@ -16,245 +18,18 @@ const rainbow = buttons[10]
 const fire = buttons[11];
 const ice = buttons[12];
 
-const custom = document.getElementById('colorPicker');
+const custom = document.getElementById('color-picker');
 
 let squares = 16;
 let modus = 'Black';
 let reverse = false;
 let red = 255, green = 255, blue = 255;
-let hue = 0, sat = 100, lit = 100;
-
-theme.addEventListener('click', changeTheme);
-
-decrease.addEventListener('click', decreaseRatio);
-increase.addEventListener('click', increaseRatio);
-reset.addEventListener('click', resetBoard);
-grid.addEventListener('click', gridToggle);
-
-rand.addEventListener('click', toggleModi);
-gray.addEventListener('click', toggleModi);
-dark.addEventListener('click', toggleModi);
-bright.addEventListener('click', toggleModi);
-rainbow.addEventListener('click', toggleModi);
-fire.addEventListener('click', toggleModi);
-ice.addEventListener('click', toggleModi);
-
-custom.addEventListener("click", changeColor);
-custom.addEventListener("change", changeColor);
-
-board.addEventListener('pointerdown', ev => {
-  ev.preventDefault();
-  selectModus(ev);
-});
-
-board.style.gap = '1px';
-drawDivs();
-setRatioText();
-
-function changeTheme() {
-
-}
-
-function drawDivs() {
-  board.style.gridTemplateColumns = `repeat(${squares}, 1fr)`;
-  board.style.gridTemplateRows = `repeat(${squares}, 1fr)`;
-
-  for (let i = 0; i < squares**2; i++) {
-    const newDiv = document.createElement('div');
-    newDiv.setAttribute('class', 'pixel');
-    newDiv.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
-    newDiv.addEventListener('pointerenter', selectModus);
-    newDiv.addEventListener('pointerleave', () => setTimeout(() => newDiv.classList.toggle('recent'), 250));
-    board.appendChild(newDiv);
-  }
-}
-
-function clearBoard() {
-  const removeDivs = document.getElementsByClassName('pixel');
-  for (let i = removeDivs.length -1; i >= 0; i--) {
-    board.removeChild(removeDivs[i]);
-  }
-  document.querySelectorAll('.modus').forEach( (m) => {
-    m.classList.remove('toggle-on');
-    m.addEventListener('click', toggleModi);
-  });
-  red = 255, green = 255, blue = 255;
-  modus = 'Black';
-  black.classList.add('toggle-on')
-  black.removeEventListener('click', toggleModi);
-}
-
-function setRatioText() {
-  ratio.innerText = `${squares} X ${squares}`;
-}
-
-function decreaseRatio() {
-  if (squares > 8) {
-    squares -= 8;
-    clearBoard();
-    setRatioText();
-    drawDivs();
-  }
-}
-
-function increaseRatio() {
-  if (squares < 96) {
-    squares += 8;
-    clearBoard();
-    setRatioText();
-    drawDivs();
-  }
-}
-
-function resetBoard() {
-  clearBoard();
-  drawDivs();
-}
-
-function gridToggle() {
-  if (board.style.gap === '1px') {
-    board.style.gap = 0;
-  } else {
-    board.style.gap = '1px';
-  }
-  grid.classList.toggle('toggle-on');
-}
-
-function toggleModi() {
-  document.querySelectorAll('.modus').forEach( (m) => {
-    m.classList.remove('toggle-on');
-    m.addEventListener('click', toggleModi);
-  });
-  this.classList.add('toggle-on')
-  this.removeEventListener('click', toggleModi);
-  modus = this.innerText;
-}
-
-function changeColor() {
-  document.querySelectorAll('.modus').forEach( (m) => {
-    m.classList.remove('toggle-on');
-    m.addEventListener('click', toggleModi);
-  });
-  modus = document.getElementsByTagName('label')[0].innerText;
-  red = Number('0x' + custom.value.slice(1,3));
-  green = Number('0x' + custom.value.slice(3,5));
-  blue = Number('0x' + custom.value.slice(5));
-}
-
-function blackColor(e) {
-  if (e.pressure !== 0 && e.buttons === 1) {
-    red = 0, green = 0, blue = 0;
-    e.target.classList.toggle('recent');
-    e.target.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
-  }
-}
-
-function randomColor(e) {
-  if (e.pressure !== 0 && e.buttons === 1) {
-    red = Math.random() * 256;
-    green = Math.random() * 256;
-    blue = Math.random() * 256;
-    e.target.classList.toggle('recent');
-    e.target.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
-  }    
-}  
-
-function grayColor(e) {
-  if (e.pressure !== 0 && e.buttons === 1) {
-    if (reverse) {
-      if (red < 55) {
-        red = 50;
-        reverse = false;
-      } else {
-        red -=5;
-      }
-    } else {
-      if (red > 200) {
-        red = 205;
-        reverse = true;
-      } else {
-        red += 5;
-      }
-    }
-    e.target.classList.toggle('recent');
-    e.target.style.backgroundColor = `rgb(${red}, ${red}, ${red})`;
-  }
-}
-
-function darken(e) {
-  if (e.pressure !== 0 && e.buttons === 1) {
-    [red, green, blue] = [...e.target.style.backgroundColor.split(/[^0-9]/).filter( (a) => a !== "")];
-    red = Number(red) < 25 ? 0 : Number(red) - 25;
-    green = Number(green) < 25 ? 0 : Number(green) - 25;
-    blue = Number(blue) < 25 ? 0 : Number(blue) - 25;
-    e.target.classList.toggle('recent');
-    e.target.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
-  }
-}
-
-function brighten(e) {
-  if (e.pressure !== 0 && e.buttons === 1) {
-    [red, green, blue] = [...e.target.style.backgroundColor.split(/[^0-9]/).filter( (a) => a !== "")];
-    red = Number(red) > 230 ? 255 : Number(red) + 25;
-    green = Number(green) > 230 ? 255 : Number(green) + 25;
-    blue = Number(blue) > 230 ? 255 : Number(blue) + 25;
-    e.target.classList.toggle('recent');
-    e.target.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
-  }
-}
-
-function rainbowColor(e) {
-
-}
-
-function fireColor(e) {
-  if (e.pressure !== 0 && e.buttons === 1) {
-    if (reverse) {
-      if (green < 5) {
-        green = 0;
-        reverse = false;
-      } else {
-        green -=5;
-      }
-    } else {
-      if (green > 250) {
-        green = 255;
-        reverse = true;
-      } else {
-        green += 5;
-      }
-    }
-    e.target.classList.toggle('recent');
-    e.target.style.backgroundColor = `rgb(${255}, ${green}, ${0})`;
-  }
-}
-
-function iceColor(e) {
-  if (e.pressure !== 0 && e.buttons === 1) {
-    if (reverse) {
-      if (green < 5) {
-        green = 0;
-        reverse = false;
-      } else {
-        green -=5;
-      }
-    } else {
-      if (green > 250) {
-        green = 255;
-        reverse = true;
-      } else {
-        green += 5;
-      }
-    }
-    e.target.classList.toggle('recent');
-    e.target.style.backgroundColor = `rgb(${0}, ${green}, ${255})`;
-  }
-}
+let hue = 0, sat = 0, lit = 100;
 
 function customColor(e) {
   if (e.pressure !== 0 && e.buttons === 1) {
     if (reverse) {
-      if (red < 20 || green < 20 || blue < 20) {
+      if (red <= 20 || green <= 20 || blue <= 20) {
         reverse = false;
       } else {
         red -=5;
@@ -262,7 +37,7 @@ function customColor(e) {
         blue -=5;
       }
     } else {
-      if (red > 235 || green >235 || blue > 235) {
+      if (red >= 235 || green >= 235 || blue >= 235) {
         reverse = true;
       } else {
         red += 5;
@@ -270,9 +45,147 @@ function customColor(e) {
         blue += 5;
       }
     }
-    e.target.classList.toggle('recent');
+    e.target.classList.toggle('current');
     e.target.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
   }
+}
+
+function changeColor() {
+  document.querySelectorAll('.modus').forEach( (m) => {
+    m.classList.remove('toggle-on');
+    m.addEventListener('click', toggleModi);
+  });
+  console.dir(custom);
+  modus = document.querySelector('label').innerText;
+  red = Number('0x' + custom.value.slice(1,3));
+  green = Number('0x' + custom.value.slice(3,5));
+  blue = Number('0x' + custom.value.slice(5));
+}
+
+function iceColor(e) {
+  [sat, lit] = [100, 50];
+  if (e.pressure !== 0 && e.buttons === 1) {
+    if (hue > 251 || hue < 184) {
+      hue = 251;
+    }
+    if (reverse) {
+      if (hue < 187) {
+        hue = 184;
+        reverse = false;
+      } else {
+        hue -= 3;
+      }  
+    } else {
+      if (hue > 248) {
+        hue = 251;
+        reverse = true;
+      } else {
+        hue += 3;
+      }  
+    }
+    setColor(e.target);
+  }  
+}  
+
+function fireColor(e) {
+  [sat, lit] = [100, 50];
+  if (e.pressure !== 0 && e.buttons === 1) {
+    if (hue > 60) {
+      hue = 0;
+    }
+    if (reverse) {
+      if (hue < 3) {
+        hue = 0;
+        reverse = false;
+      } else {
+        hue -= 3;
+      }    
+    } else {
+      if (hue > 57) {
+        hue = 60;
+        reverse = true;
+      } else {
+        hue += 3;
+      }    
+    }    
+    setColor(e.target);
+  }    
+}    
+
+function rainbowColor(e) {
+  [sat, lit] = [100, 50];
+  if (e.pressure !== 0 && e.buttons === 1) {
+    hue = (hue + 5) % 360;
+    setColor(e.target);
+  }    
+}  
+
+function brighten(e) {
+  if (e.pressure !== 0 && e.buttons === 1) {
+    [hue, sat, lit] = [e.target.dataset.h, e.target.dataset.s, e.target.dataset.l];
+    if(lit <= 90) {
+      lit = Number(lit) + 10;
+    } else {
+      lit = 100;
+    };
+    setColor(e.target);
+  }
+}
+
+function darken(e) {
+  if (e.pressure !== 0 && e.buttons === 1) {
+    [hue, sat, lit] = [e.target.dataset.h, e.target.dataset.s, e.target.dataset.l];
+    if(lit >= 10) {
+      lit -=10;
+    } else {
+      lit = 0;
+    };
+    setColor(e.target);
+  }
+}
+
+function grayColor(e) {
+  if (e.pressure !== 0 && e.buttons === 1) {
+    if (reverse) {
+      if (lit <= 55) {
+        lit = 0;
+        reverse = false;
+      } else {
+        lit -=5;
+      }
+    } else {
+      if (lit >= 95) {
+        lit = 100;
+        reverse = true;
+      } else {
+        lit += 5;
+      }
+    }
+    [hue, sat] = [0, 0];
+    setColor(e.target);
+  }
+}
+
+function randomColor(e) {
+  if (e.pressure !== 0 && e.buttons === 1) {
+    hue = Math.floor(Math.random() * 360);
+    sat = Math.floor(Math.random() * 51) + 50;
+    lit = Math.floor(Math.random() * 51) + 50;
+    setColor(e.target);
+  }    
+}  
+
+function blackColor(e) {
+  if (e.pressure !== 0 && e.buttons === 1) {
+    [hue, sat, lit] = [0, 0, 0];
+    setColor(e.target);
+  }
+}
+
+function setColor(pixel) {
+  pixel.classList.toggle('current');
+  [pixel.dataset.h, pixel.dataset.s, pixel.dataset.l] = [hue, sat, lit];
+  pixel.style.backgroundColor = `hsl(${pixel.dataset.h}, ${pixel.dataset.s}%, ${pixel.dataset.l}%)`;
 }
 
 function selectModus(e) {
@@ -306,3 +219,101 @@ function selectModus(e) {
       break;
   }
 }
+
+function toggleModi() {
+  document.querySelectorAll('.modus').forEach( (m) => {
+    m.classList.remove('toggle-on');
+    m.addEventListener('click', toggleModi);
+  });
+  this.classList.add('toggle-on')
+  this.removeEventListener('click', toggleModi);
+  modus = this.innerText;
+}
+
+function gridToggle() {
+  board.style.gap = board.style.gap === '1px' ? 0 : '1px';
+  grid.classList.toggle('toggle-on');
+}
+
+function resetBoard() {
+  [hue, sat, lit] = [0, 0, 100];
+  board.querySelectorAll('div').forEach( pixel => {
+    [pixel.dataset.h, pixel.dataset.s, pixel.dataset.l] = [hue, sat, lit];
+    pixel.style.backgroundColor = `hsl(${pixel.dataset.h}, ${pixel.dataset.s}%, ${pixel.dataset.l}%)`;
+  });
+}
+
+function increaseRatio() {
+  if (squares < 96) {
+    squares += 8;
+    setRatioText();
+    drawPixel();
+  }
+}
+
+function decreaseRatio() {
+  if (squares > 8) {
+    squares -= 8;
+    setRatioText();
+    drawPixel();
+  }
+}
+
+function changeTheme() {
+  
+}
+
+function drawPixel() {
+  board.querySelectorAll('div').forEach( pixel => board.removeChild(pixel));
+  document.documentElement.style.setProperty('--grid', squares);
+  [hue, sat, lit] = [0, 0, 100];
+  
+  for (let i = 0; i < squares**2; i++) {
+    const pixel = document.createElement('div');
+    pixel.setAttribute('data-h', `${hue}`);
+    pixel.setAttribute('data-s', `${sat}`);
+    pixel.setAttribute('data-l', `${lit}`);
+    board.appendChild(pixel);
+    pixel.style.backgroundColor = `hsl(${pixel.dataset.h}, ${pixel.dataset.s}%, ${pixel.dataset.l}%)`;
+    pixel.addEventListener('pointerenter', selectModus);
+    pixel.addEventListener('pointerleave', () => setTimeout(() => pixel.classList.toggle('current'), 250));
+  }
+  document.querySelectorAll('.modus').forEach( (m) => {
+    m.classList.remove('toggle-on');
+    m.addEventListener('click', toggleModi);
+  });
+  modus = 'Black';
+  black.classList.add('toggle-on')
+  black.removeEventListener('click', toggleModi);
+}
+
+function setRatioText() {
+  ratio.innerText = `${squares} X ${squares}`;
+}
+
+theme.addEventListener('click', changeTheme);
+
+decrease.addEventListener('click', decreaseRatio);
+increase.addEventListener('click', increaseRatio);
+reset.addEventListener('click', resetBoard);
+grid.addEventListener('click', gridToggle);
+
+rand.addEventListener('click', toggleModi);
+gray.addEventListener('click', toggleModi);
+dark.addEventListener('click', toggleModi);
+bright.addEventListener('click', toggleModi);
+rainbow.addEventListener('click', toggleModi);
+fire.addEventListener('click', toggleModi);
+ice.addEventListener('click', toggleModi);
+
+custom.addEventListener("click", changeColor);
+custom.addEventListener("change", changeColor);
+
+board.addEventListener('pointerdown', ev => {
+  ev.preventDefault();
+  selectModus(ev);
+});
+
+board.style.gap = '1px';
+setRatioText();
+drawPixel();
