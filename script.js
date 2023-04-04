@@ -28,26 +28,44 @@ let hue = 0, sat = 0, lit = 100;
 
 function customColor(e) {
   if (e.pressure !== 0 && e.buttons === 1) {
-    if (reverse) {
-      if (red <= 20 || green <= 20 || blue <= 20) {
-        reverse = false;
-      } else {
-        red -=5;
-        green -=5;
-        blue -=5;
-      }
-    } else {
-      if (red >= 235 || green >= 235 || blue >= 235) {
-        reverse = true;
-      } else {
-        red += 5;
-        green += 5;
-        blue += 5;
-      }
-    }
-    e.target.classList.toggle('current');
-    e.target.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+    setColor(e.target);
   }
+}
+
+/* Thanks to: Waldman Media AB - Nicolai Waldman 
+https://www.niwa.nu/2013/05/math-behind-colorspace-conversions-rgb-hsl/ */
+function rgbToHsl() {
+  let [h, s, l] = [0, 0, 0];
+  let [r, g, b] = [0, 0, 0];
+  let rgb = [r,g,b] = [
+    Number('0x' + custom.value.slice(1,3)) / 255,
+    Number('0x' + custom.value.slice(3,5)) / 255,
+    Number('0x' + custom.value.slice(5)) / 255
+  ];
+  
+  rgb.sort( (p,n) => n - p);
+  
+  l = (rgb[0] + rgb[2]) / 2;
+  
+  if (rgb[0] === rgb[2]) {
+    s = 0;
+  } else if (l <= 0.5) {
+    s = (rgb[0] - rgb[2]) / (rgb[0] + rgb[2])
+  } else {
+    s = (rgb[0] - rgb[2]) / (2.0 - rgb[0] - rgb[2])
+  }
+  
+  if (rgb[0] === r) {
+    h = (g - b) / (rgb[0] - rgb[2]);
+  } else if (rgb[0] === g) {
+    h = 2.0 + (b - r) / (rgb[0] - rgb[2]);
+  } else {
+    h = 4.0 + (r - g) / (rgb[0] - rgb[2]);
+  }
+  
+  hue = Number.isNaN(h) ? 0 : Math.round(h < 0 ? h + 360 : h * 60);
+  sat = Math.round(s * 100);
+  lit = Math.round(l * 100);
 }
 
 function changeColor() {
@@ -55,11 +73,8 @@ function changeColor() {
     m.classList.remove('toggle-on');
     m.addEventListener('click', toggleModi);
   });
-  console.dir(custom);
   modus = document.querySelector('label').innerText;
-  red = Number('0x' + custom.value.slice(1,3));
-  green = Number('0x' + custom.value.slice(3,5));
-  blue = Number('0x' + custom.value.slice(5));
+  rgbToHsl();
 }
 
 function iceColor(e) {
