@@ -1,0 +1,184 @@
+@import url('https://fonts.googleapis.com/css2?family=Megrim&display=swap');
+
+:root {
+  --grid: 16;
+  --hue: 0;
+  --sat: 100%;
+  --lit: 100%;
+}
+
+html {
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  font-family: 'Megrim', cursive;
+  height: 100vh;
+  background-color: #efefef;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+header,
+main,
+footer {
+  width: 960px;
+  margin: 0 auto;
+  display: flex;
+}
+
+header {
+  background-color: #dfdfdf;
+}
+
+main {
+  background-color: #cfcfcf;
+}
+
+footer {
+  background-color: #bfbfbf;
+  color: #fff;
+  font-size: 1.2rem;
+  text-align: center;
+  text-shadow: 2px 2px 2px #3f3f3f;
+}
+
+h1 {
+  color: white;
+  text-shadow: 3px 3px 3px #6f6f6f;
+  text-align: center;
+  font-size: 3.5rem;
+}
+
+ul {
+  margin-top: 1.0rem;
+  margin-left: 0.5rem;
+  display: flex;
+  flex-flow: column nowrap;
+  list-style-type: none;
+  align-items: flex-start;
+}
+
+li:nth-of-type(4) {
+  margin-top: 1.2rem;
+}
+
+li {
+  margin-bottom: 0.4rem;
+}
+
+li.ratio {
+  display: flex;
+  align-items: center;
+  border: 1px groove #6f6f6f;
+  padding: 0 3px;
+}
+
+#ratio {
+  background-color: #3f3f3f;
+  width: 80px;
+  height: 24px;
+  margin: 0.2rem 0;
+  padding: 2px 8px;
+  text-align: right;
+  color: #8fff8f;
+}
+
+button.ratio {
+  font-family: inherit;
+  font-size: 1.0rem;
+  font-weight: bold;
+  padding: 0 4px 1px;
+  height: 24px;
+  margin-left: 0.1rem;
+}
+
+button.common {
+  width: 133px;
+  padding: 2px 0;
+  font-family: inherit;
+  font-size: 1.05rem;
+}      
+
+button.common.toggle-on {
+  background-color: #7fffd4;
+  border-radius: 3px;
+}      
+
+#board {
+  width: 800px;
+  height: 800px;
+  display: grid;
+  justify-content:center;
+  align-content: center;
+  background-color: #afafaf;
+}  
+
+.pixel.recent {
+  transition-property: background-color;
+  transition-duration: 250ms;
+  transition-timing-function: ease;
+}
+
+#colorPicker {
+  width: 133px;
+  height: 32px;
+  border: 1px groove #6f6f6f;
+  border-radius: 3px;
+}
+@media only screen and (max-width: 960px) {
+  header,
+  main,
+  footer {
+    width: 720px;
+  }
+  
+  #board {
+    width: 560px;
+    height: 560px;
+  }
+}
+
+@media only screen and (max-width: 720px) {
+  header,
+  main,
+  footer {
+    width: 480px;
+  }
+
+  h1 {
+    font-size: 3.0rem;
+  }
+
+  #board {
+    width: 320px;
+    height: 320px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  header,
+  main,
+  footer {
+    width: 360px;
+  }
+
+  h1 {
+    font-size: 2.0rem;
+  }
+
+  #board {
+    width: 240px;
+    height: 240px;
+  }
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <script src="./script.js" defer></script>
+    <title>Etch-A-Sketch</title>
+  </head>
+  <body>
+    <header>
+      <h1>EtcH - A - SketcH</h1><button>&#x1f319;</button> <!--&#x1f506;-->
+    </header>
+    <main>
+      <nav>
+        <ul>
+          <li class="ratio">
+            <p id="ratio"></p>
+            <button class="ratio">-</button>
+            <button class="ratio">+</button>
+          </li>
+          <li><button class='common'>Reset</button></li>
+          <li><button class='common toggle-on'>Grid</button></li>
+          <li><button class='common modus toggle-on'>Black</button></li>
+          <li><button class='common modus'>Random</button></li>
+          <li><button class='common modus'>Grayscale</button></li>
+          <li><button class='common modus'>Darken</button></li>
+          <li><button class='common modus'>Brighten</button></li>
+          <li><button class='common modus'>Rainbow</button></li>
+          <li><button class='common modus'>Fire</button></li>
+          <li><button class='common modus'>Ice</button></li>
+          <li><label for="colorPicker">Custom</label><input id="colorPicker" type="color"></li>
+        </ul>
+      </nav>
+      <div id="board"></div>
+    </main>
+    <footer><p>&copy; <a href="https://github.com/LastCapricorn">Last Capricorn</a> 2023</p></footer>
+  </body>
+</html>
