@@ -1,18 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Megrim&display=swap');
 
 :root {
-  --grid: 16;
-  --theme-sun: '&#x1f506;';
-  --theme-moon: '&#x1f319;';
-  --background1: #efefef;
-  --background2: #cfcfcf;
-  --background3: #afafaf;
-  --background4: #8f8f8f;
-  --background5: #7fffd4;
-  --text1: #fff;
-  --text2: #8fff8f;
-  --shadow1: #4f4f4f;
-  --shadow2: #2f2f2f;
+  --black: #000;
+  --white: #fff;
+  --background1: #fccf2f;
+  --background2: #f7b747;
+  --background3: #df982f;
+  --background4: #bf7f2f;
+  --background5: #fcdf7f;
+  --text1: #fdefa0;
+  --text2: #f1ff2f;
+  --shadow1: #4f2f00;
+  --shadow2: #3f1f0f;
 }
 
 html {
@@ -80,11 +79,14 @@ h1 {
 }
 
 button {
+  background-color: var(--background4);
+  color: var(--black);
   cursor: pointer;
 }
 
 header button {
-  background-color: var(--background2);
+  font-family: cursive;
+  background-color: var(--background4);
   border: 2px outset var(--background1);
   outline: solid 1px var(--background4);
   outline-offset: 0px;
@@ -156,12 +158,13 @@ button.common.toggle-on {
 li:last-of-type {
   display: flex;
   flex-direction: column;
+  color: var(--black);
 }
 
 #color-picker {
   width: 120px;
   height: 32px;
-  background-color: var(--background2);
+  background-color: var(--background4);
   border: 1px solid var(--shadow1);
   border-radius: 2px;
   cursor: pointer;
@@ -202,7 +205,6 @@ footer a:hover {
   footer {
     width: 1000px;
   }
-  
   #board {
     width: 740px;
     height: 740px;
@@ -215,7 +217,6 @@ footer a:hover {
   footer {
     width: 900px;
   }
-
   #board {
     width: 640px;
     height: 640px;
@@ -228,7 +229,6 @@ footer a:hover {
   footer {
     width: 800px;
   }
-
   #board {
     width: 600px;
     height: 600px;
@@ -239,64 +239,52 @@ footer a:hover {
   html {
     font-size: 14px;
   }
-
   header,
   main,
   footer {
     width: 700px;
   }
-
   nav {
     flex: 0 0 20%;
   }
-
   #board {
     width: 500px;
     height: 500px;
   }
-
   #ratio {
     background-color: var(--shadow2);
     width: 64px;
   }
-  
   button.common,
   #color-picker {
     width: 110px;
   }      
-
 }
 
 @media screen and (max-width: 711px) {
   html {
     font-size: 12px;
   }
-
   header,
   main,
   footer {
     width: 560px;
   }
-
   nav {
     flex: 0 0 22%;
   }
-
   #board {
     width: 400px;
     height: 400px;
   }
-
   #ratio {
     background-color: var(--shadow2);
     width: 58px;
   }
-
   button.common,
   #color-picker {
     width: 101px;
   }
-
 }
 
 @media screen and (max-width: 611px) {
@@ -305,50 +293,40 @@ footer a:hover {
   footer {
     width: 400px;
   }
-
   main {
     flex-direction: column-reverse;
     align-items: center;
   }
-
   nav {
     flex: 0 0 0;
   }
-
   ul {
     flex-flow: row wrap;
     justify-content: center;
     align-items: flex-start;
   }
-
   li:nth-of-type(4) {
     margin-top: 0;
   }
-
   h1 {
     font-size: 3.0rem;
   }
-
   #board {
     width: 320px;
     height: 320px;
   }
-
   #ratio {
     background-color: var(--shadow2);
     width: 66px;
   }
-
   li:last-of-type {
     flex-direction: column-reverse;
     height: 37px;
   }
-
   button.common,
   #color-picker {
     width: 106px;
   }
-
 }
 
 @media screen and (max-width: 411px) {
@@ -357,14 +335,11 @@ footer a:hover {
   footer {
     width: 300px;
   }
-
   h1 {
     font-size: 2.5rem;
   }
-
   #board {
     width: 240px;
     height: 240px;
   }
-
 }
